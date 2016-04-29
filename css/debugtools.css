@@ -1,0 +1,42 @@
+/**
+ * DEBUG TOOLS
+ * By James Barnsley (james@barnsley.nz)
+ * February 2016
+ **/
+ 
+#page-info {
+	position: fixed;
+	z-index: 999;
+	bottom: 0;
+	right: 0;
+	padding: 0 5px;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+ 
+#page-info > .debug-item {
+	display: inline-block;
+	padding: 10px 15px;
+	background: #e31818;
+	color: #FFFFFF;
+	text-decoration: none;
+	margin-right: -3px;
+}
+ 
+#page-info > .debug-item:first-child {
+	background: #d30f0f;
+	color: #ea9494;
+	text-transform: uppercase;
+}
+
+@media( min-width: 500px ){
+	#page-info > .debug-item:first-child {
+		display: none;
+	}
+}
+ 
+#page-info > a.debug-item:hover {
+	background: #d30f0f;
+}
+
