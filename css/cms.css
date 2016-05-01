@@ -1,0 +1,20 @@
+/**
+ * DEBUG TOOLS
+ * By James Barnsley (james@barnsley.nz)
+ * May 2016
+ **/
+ 
+ 
+.cms-logo .environment-icon {
+	display: block;
+	height: 11px;
+	width: 60px;
+	margin: 2px 0 0 0;
+	padding: 0;
+	background-position: 0 0;
+	background-repeat: no-repeat;
+}
+
+.cms-logo .environment-icon.dev {		background-image: url('../images/environment-icon-dev.png') }
+.cms-logo .environment-icon.test {	background-image: url('../images/environment-icon-test.png') }
+.cms-logo .environment-icon.live {	background-image: url('../images/environment-icon-live.png') }

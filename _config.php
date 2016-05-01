@@ -7,3 +7,6 @@ define('DEVTOOLS_DIR', 'dev-tools' );
 ContentController::add_extension('DebugTools_ContentControllerExtension');
 SiteConfig::add_extension('DebugTools_SiteConfigExtension');
 Member::add_extension('DebugTools_MemberExtension');
+
+// include css
+LeftAndMain::require_css(DEVTOOLS_DIR . '/css/cms.css');
