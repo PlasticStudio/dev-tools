@@ -27,7 +27,7 @@ class DebugTools_ContentControllerExtension extends Extension {
 		
 		// URL attribute?
 		if( !isset($params['ID']) ){
-			Requirements::css( DEBUGTOOLS_DIR .'/css/emulateuser.css');
+			Requirements::css( DEVTOOLS_DIR .'/css/emulateuser.css');
 			
 			$members = Member::get();
 			$membersList = array();
@@ -60,7 +60,7 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 **/
 	public function onAfterInit(){
 		if( $this->DebugEnabled() )
-			Requirements::css( DEBUGTOOLS_DIR .'/css/debugtools.css');
+			Requirements::css( DEVTOOLS_DIR .'/css/debugtools.css');
 		
 		return false;
 	}

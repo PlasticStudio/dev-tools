@@ -1,7 +1,7 @@
 <?php
 
 // define this directory
-define('DEBUGTOOLS_DIR', 'debugtools' );
+define('DEVTOOLS_DIR', 'dev-tools' );
 
 // add functionality to SiteTree
 ContentController::add_extension('DebugTools_ContentControllerExtension');
