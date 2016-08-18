@@ -1,0 +1,221 @@
+/**
+ * SILVERSTRIPE DEV-TOOLS
+ * By James Barnsley (GitHub @jaedb)
+ **/
+
+@import 'https://fonts.googleapis.com/css?family=Open+Sans:400,800,300,300italic,400italic';
+
+#dev-tools {
+	font-family: 'Open Sans', Arial, Helvetica;
+	font-size: 16px;
+	background: #F3F3F3;
+}
+
+#dev-tools.centered {
+	max-width: 550px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+#dev-tools * {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+#dev-tools header {
+	padding: 50px 0;
+}
+
+#dev-tools footer {
+	padding: 50px 0;
+	color: #CCCCCC;
+	font-size: 14px;
+	text-align: center;
+}
+
+#dev-tools footer p {
+	padding: 0;
+}
+
+#dev-tools h1 {
+	text-transform: uppercase;
+	font-size: 20px;
+	padding-bottom: 20px;
+}
+
+#dev-tools p {
+	padding: 5px 0;
+}
+
+#dev-tools a {
+	color: #06b8e4;
+	text-decoration: none;
+}
+
+#dev-tools a.button {
+	display: inline-block;
+	padding: 10px 18px;
+	min-width: 150px;
+	text-align: center;
+	color: #FFFFFF;
+	text-decoration: none;
+	background: #06b8e4;
+	margin: 20px 0;
+	border: 0 !important;
+}
+
+#dev-tools a.button:hover {
+	color: #FFFFFF;
+	background: #04a6ce;
+}
+
+#dev-tools p a {
+	border-bottom: 1px dotted #06b8e4;
+}
+
+#dev-tools p a:hover {
+	color: #000000;
+	border-bottom: 1px solid #000000;
+}
+
+ 
+#dev-tools .pagination {
+	text-align: center;
+	font-size: 12px;
+	color: #999999;
+}
+ 
+#dev-tools .pagination .button {
+	min-width: 0;
+	padding: 8px 16px;
+}
+ 
+#dev-tools .pagination .current {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+
+
+
+
+/**
+ * Emulate user page
+ **/
+
+#dev-tools.emulate-user {
+	width: 90%;
+	max-width: 900px;
+	margin: 50px auto;
+}
+
+#dev-tools.emulate-user .title {
+	font-weight: bold;
+	font-size: 36px;
+	padding-bottom: 10px;
+}
+
+#dev-tools.emulate-user .intro {
+	color: #555555;
+	font-size: 14px;
+	width: 50%;
+	padding-bottom: 20px;
+	line-height: 20px;
+}
+ 
+#dev-tools.emulate-user .table {
+	margin-top: 20px;
+	padding-top: 20px;
+	background: #FFFFFF;
+}
+ 
+#dev-tools.emulate-user .headings {
+	font-size: 12px;
+	color: #AAAAAA;
+	text-transform: uppercase;
+	padding: 0 20px;
+	margin-bottom: 5px;
+}
+ 
+#dev-tools.emulate-user .users > .user {
+	display: block;
+	border-top: 1px solid #CCCCCC;
+	color: #000000;
+	padding: 15px 20px;
+	text-decoration: none;
+	font-size: 14px;
+}
+ 
+#dev-tools.emulate-user .users > .user.current {
+	font-weight: bold;
+}
+ 
+#dev-tools.emulate-user .users > .user:hover {
+	background: #fff7b7;
+}
+ 
+#dev-tools.emulate-user .id,
+#dev-tools.emulate-user .name,
+#dev-tools.emulate-user .email {
+	float: left;
+	min-height: 1px;
+}
+ 
+#dev-tools.emulate-user .id {			width: 10%; }
+#dev-tools.emulate-user .name {		width: 45%; }
+#dev-tools.emulate-user .email {		width: 45%; }
+
+#dev-tools.emulate-user .no-results {
+	padding: 20px;
+	text-align: center;
+	color: #AAAAAA;
+	font-size: 16px;
+}
+
+
+/**
+ * Page info panel shown on the front-end of the website
+ * Positioned in a red info bar and can be disabled within the CMS
+ **/
+
+#page-info {
+	position: fixed;
+	z-index: 999;
+	bottom: 0;
+	right: 0;
+	padding: 0 5px;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+ 
+#page-info > .debug-item {
+	display: inline-block;
+	padding: 10px 15px;
+	background: #e31818;
+	color: #FFFFFF;
+	text-decoration: none;
+	margin-right: -3px;
+}
+ 
+#page-info > .debug-item:first-child {
+	background: #d30f0f;
+	color: #ea9494;
+	text-transform: uppercase;
+}
+
+@media( min-width: 500px ){
+	#page-info > .debug-item:first-child {
+		display: none;
+	}
+}
+ 
+#page-info > a.debug-item:hover {
+	background: #d30f0f;
+}
+
+
+
+
+

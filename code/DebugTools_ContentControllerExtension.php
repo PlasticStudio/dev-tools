@@ -5,8 +5,31 @@
 class DebugTools_ContentControllerExtension extends Extension {
 
 	private static $allowed_actions = array(
-		'emulateuser'
+		'emulateuser',
+		'olddomain'
 	);
+	
+	/**
+	 * On render of all pages, detect if a redirect is required
+	 * @return array()
+	 **/
+	public function index(){		
+		if( DEVTOOLS_ISOLDDOMAIN && SS_PRIMARY_DOMAIN != 'SS_PRIMARY_DOMAIN' ){
+			return $this->owner->redirect( SS_PRIMARY_DOMAIN );
+		}
+		return array();
+	}
+	
+	
+	/**
+	 * Current client's IP address
+	 * @return string
+	 **/
+	public function ClientIPAddress(){
+		$request = $this->owner->getRequest();
+		return $_SERVER['REMOTE_ADDR'];
+	}
+	
 	
 	
 	/** 
@@ -15,6 +38,9 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 * @return redirect
 	 **/
 	public function emulateuser( $request ){
+		
+		Requirements::clear();
+		Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
 		
 		// not enabled, or not allowed >> get out
 		if( !$this->CanEmulateUser() ){
@@ -27,16 +53,15 @@ class DebugTools_ContentControllerExtension extends Extension {
 		
 		// URL attribute?
 		if( !isset($params['ID']) ){
-			Requirements::css( DEVTOOLS_DIR .'/css/emulateuser.css');
 			
 			$members = Member::get();
 			$membersList = array();
 			foreach($members as $member) {
-				if( !$member->inGroup("administrators") && $member->ID > 1 ){
-					$membersList[$member->ID] = $member;
-				}
+				$membersList[$member->ID] = $member;
 			}
-			$membersList = ArrayList::create($membersList);
+			$membersList = ArrayList::create($membersList);			
+			$membersList = PaginatedList::create($membersList, $this->owner->getRequest());
+			$membersList->setPageLength(20);
 			
 			return $this->owner->customise( array('Users' => $membersList) )->renderWith('EmulateUserPage');
 		}
