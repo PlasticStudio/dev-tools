@@ -13,9 +13,17 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 * On render of all pages, detect if a redirect is required
 	 * @return array()
 	 **/
-	public function index(){		
+	public function index( $request ){		
 		if( DEVTOOLS_ISOLDDOMAIN && SS_PRIMARY_DOMAIN != 'SS_PRIMARY_DOMAIN' ){
-			return $this->owner->redirect( SS_PRIMARY_DOMAIN );
+			
+			// construct our destination redirect url
+			$redirect = SS_PRIMARY_DOMAIN;
+			if( $request->getURL() ){
+				$redirect .= '/'.$request->getURL();
+			}
+			
+			// perform a redirection
+			return $this->owner->redirect( $redirect );
 		}
 		return array();
 	}
