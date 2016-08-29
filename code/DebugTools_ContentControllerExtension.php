@@ -85,7 +85,7 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 **/
 	public function onAfterInit(){
 		if( $this->DebugEnabled() )
-			Requirements::css( DEVTOOLS_DIR .'/css/debugtools.css');
+			Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
 		
 		return false;
 	}
@@ -134,6 +134,9 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 * @return HTMLText
 	 **/
 	public function DebugTools(){
+		
+		// make sure we import our css
+		Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
 		
 		if( $this->DebugEnabled() )
 			return $this->PageInfo()->renderWith('PageInfo');
