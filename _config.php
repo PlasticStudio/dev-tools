@@ -3,6 +3,13 @@
 // define this directory
 define('DEVTOOLS_DIR', 'dev-tools' );
 
+// create definition of site name (based on SS_PRIMARY_DOMAIN)
+$siteName = SS_PRIMARY_DOMAIN;
+$siteName = str_replace('http://','',$siteName);
+$siteName = str_replace('https://','',$siteName);
+$siteName = str_replace('.','_',$siteName);
+define('SS_SITE_NAME', $siteName );
+
 // detect if we're using the old domain and need to flag the issue
 $fullDomain = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
 if( $fullDomain != SS_PRIMARY_DOMAIN && SS_ENVIRONMENT_TYPE == 'live' ){
@@ -23,7 +30,5 @@ Member::add_extension('DebugTools_MemberExtension');
 // include css
 LeftAndMain::require_css(DEVTOOLS_DIR . '/css/cms.css');
 
-// log my errors
-$path = BASE_PATH.'/../logs';
-SS_Log::add_writer(new SS_LogFileWriter($path.'/info.log'), SS_Log::WARN, '<=');
-SS_Log::add_writer(new SS_LogFileWriter($path.'/errors.log'), SS_Log::ERR);
+// enable our log jam logger
+LogJam::EnableLog();
