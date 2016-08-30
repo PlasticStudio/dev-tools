@@ -30,5 +30,8 @@ Member::add_extension('DebugTools_MemberExtension');
 // include css
 LeftAndMain::require_css(DEVTOOLS_DIR . '/css/cms.css');
 
+// specify editor css file (this needs to be pure CSS, not SCSS)
+HtmlEditorConfig::get('cms')->setOption('content_css', '/site/cms/editor.css');
+
 // enable our log jam logger
 LogJam::EnableLog();
