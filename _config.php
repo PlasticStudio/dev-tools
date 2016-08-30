@@ -23,6 +23,9 @@ Member::add_extension('DebugTools_MemberExtension');
 // include css
 LeftAndMain::require_css(DEVTOOLS_DIR . '/css/cms.css');
 
+// specify editor css file (this needs to be pure CSS, not SCSS)
+HtmlEditorConfig::get('cms')->setOption('content_css', '/site/cms/editor.css');
+
 // log my errors
 $path = BASE_PATH.'/../logs';
 SS_Log::add_writer(new SS_LogFileWriter($path.'/info.log'), SS_Log::WARN, '<=');
