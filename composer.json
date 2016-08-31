@@ -1,7 +1,7 @@
 {
 	"name": "jaedb/dev-tools",
     "type": "silverstripe-module",
-	"description": "Development and debugging tools for SilverStripe",
+	"description": "Development tools for SilverStripe",
 	"homepage": "http://jamesbarnsley.co.nz",
 	"keywords": ["silverstripe"],
 	"license": "BSD-3-Clause",
@@ -13,7 +13,7 @@
 		}
 	],
 	"support": {
-		"issues": "http://github.com/jaedb/debugtools/issues"
+		"issues": "http://github.com/jaedb/dev-tools/issues"
 	},
 	"require": {
 		"silverstripe/cms": "~3.1",
