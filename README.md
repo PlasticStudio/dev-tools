@@ -1,18 +1,15 @@
-Description
-===
+# Description
 
 Adds additional functionality to assist in developing SilverStripe websites.
 
 
-Dependencies
-===
+# Dependencies
 
 * SilverStripe 3.1+
 * Betterbuttons
 
 
-Features
-===
+# Features
 
 * Performance of page loads
 * Visualisation of current site state (DEV/TEST/LIVE)
@@ -22,8 +19,7 @@ Features
 * `LogJam` logging to append system error log
 
 
-Installation
-===
+# Installation
 
 1. Add to your composer requirements `composer require jaedb/dev-tools`
 2. Edit your theme's `templates/Page.ss` template and add `$DebugTools` immediately before the `</body>` tag
@@ -31,17 +27,16 @@ Installation
 4. Toggle debug tools by turning your site to DEV or TEST modes (disabled on LIVE sites for obvious reasons)
 
 
-Usage
-===
+# Usage
 
-Debug Tools
-====
+### Debug Tools
 
 ![Debug tools](https://raw.githubusercontent.com/jaedb/dev-tools/master/source/screenshot-debugtools.jpg)
 
+* Manage the visibility of the Debug Tools from within the CMS, under _Settings_
+* Manage ability to Emulate users, also under _Settings_
 
-IconSelectField
-====
+### IconSelectField
 
 ![IconSelectField](https://raw.githubusercontent.com/jaedb/dev-tools/master/source/screenshot-iconselectfield.jpg)
 
@@ -50,8 +45,7 @@ IconSelectField
 * `$title` is the label for this field
 * `$iconFolder` (optional) defines the directory where your icons can be found. Defaults to `/site/icons`.
 
-LogJam
-====
+### LogJam
 
 * `LogJam::Log($message, $environment)`
 * `$message` a string that you'd like to log
