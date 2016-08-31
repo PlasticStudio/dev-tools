@@ -49,5 +49,5 @@ Adds additional functionality to assist in developing SilverStripe websites.
 
 * `LogJam::Log($message, $environment)`
 * `$message` a string that you'd like to log
-* `$environment` (dev|test|live) the type of environment that should log this message. Defaults to `dev`.
+* `$environment` (optional) the type of environment that should log this message (ie _test_, _dev_, _live_). Defaults to `dev`.
 
