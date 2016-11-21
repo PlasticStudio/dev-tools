@@ -51,3 +51,9 @@ Adds additional functionality to assist in developing SilverStripe websites.
 * `$message` a string that you'd like to log
 * `$environment` (optional) the type of environment that should log this message (ie _test_, _dev_, _live_). Defaults to `dev`.
 
+1. Enable LogJam in `_config.php` by adding `LogJam::EnableLog();`
+2. Check your log file location. Set this in `_ss_environment.php` with the following:
+```
+ini_set('log_errors','on');
+ini_set('error_log','/home/mywebsite/logs/php.log');
+```
