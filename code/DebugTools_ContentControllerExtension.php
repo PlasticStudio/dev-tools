@@ -18,9 +18,11 @@ class DebugTools_ContentControllerExtension extends Extension {
 			
 			// construct our destination redirect url
 			$redirect = SS_PRIMARY_DOMAIN;
-			if( $request->getURL() ){
-				$redirect .= '/'.$request->getURL();
-			}
+			if( $url = $request->getURL() ){
+                if ($url != 'home'){
+                    $redirect .= '/'.$request->getURL();
+                }
+            }
 			
 			// perform a redirection
 			return $this->owner->redirect( $redirect );
