@@ -25,7 +25,7 @@ class DebugTools_ContentControllerExtension extends Extension {
             }
 			
 			// perform a redirection
-			return $this->owner->redirect( $redirect );
+			return $this->owner->redirect( $redirect, 301 );
 		}
 		return array();
 	}
