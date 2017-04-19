@@ -145,9 +145,6 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 **/
 	public function DebugTools(){
 		
-		// make sure we import our css
-		Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
-		
 		if( $this->DebugEnabled() )
 			return $this->PageInfo()->renderWith('PageInfo');
 		
