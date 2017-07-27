@@ -49,10 +49,10 @@ class IconSelectField extends OptionsetField {
 
 		// Add a clear option
 		$options[] = new ArrayData(array(
-			'ID' => 0,
+			'ID' => 'none',
 			'Name' => $this->name,
 			'Value' => '',
-			'Title' => 'test',
+			'Title' => '',
 			'isChecked' => (!$this->value || $this->value == '')
 		));
 
