@@ -13,7 +13,8 @@ class DevTools extends Extension {
 	 * On render of all pages, detect if a redirect is required
 	 * @return array()
 	 **/
-	public function index( $request ){		
+	public function index($request){
+
 		if (DEVTOOLS_ISOLDDOMAIN && SS_PRIMARY_DOMAIN != 'SS_PRIMARY_DOMAIN'){
 			
 			// construct our destination redirect url
@@ -28,43 +29,7 @@ class DevTools extends Extension {
 			return $this->owner->redirect( $redirect, 301 );
 		}
 
-		// Plug in our BugHerd requirements (if enabled)
-		if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
-
-			// Pre-populate the email address with the current logged-in user
-			$config = null;
-			if (Member::currentUserID()){
-				$config = '
-					var BugHerdConfig = {
-						"reporter": {
-							"email":"'.Member::currentUser()->Email.'",
-							"required":"true"
-						}
-					};';
-			}
-
-			Requirements::customScript('
-				'.$config.'
-				(function (d, t) {
-				var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
-				bh.type = "text/javascript";
-				bh.src = "https://www.bugherd.com/sidebarv2.js?apikey='.$project_key.'";
-				s.parentNode.insertBefore(bh, s);
-				})(document, "script");
-			');
-		}
-
 		return array();
-	}
-	
-	
-	/**
-	 * Current client's IP address
-	 * @return string
-	 **/
-	public function ClientIPAddress(){
-		$request = $this->owner->getRequest();
-		return $_SERVER['REMOTE_ADDR'];
 	}
 	
 	
@@ -120,12 +85,50 @@ class DevTools extends Extension {
 	
 	
 	/**
+	 * Current client's IP address
+	 * @return string
+	 **/
+	public function ClientIPAddress(){
+		$request = $this->owner->getRequest();
+		return $_SERVER['REMOTE_ADDR'];
+	}
+	
+	
+	/**
 	 * Once the ContentController has been initiated, plug in our CSS (if debug enabled)
 	 * @return null
 	 **/
 	public function onAfterInit(){
+
+		// Include our dev-tools CSS
 		if ($this->DebugEnabled()){
 			Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
+		}
+
+		// Plug in our BugHerd requirements (if enabled)
+		if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
+
+			// Pre-populate the email address with the current logged-in user
+			$config = null;
+			if (Member::currentUserID()){
+				$config = '
+					var BugHerdConfig = {
+						"reporter": {
+							"email":"'.Member::currentUser()->Email.'",
+							"required":"true"
+						}
+					};';
+			}
+
+			Requirements::customScript('
+				'.$config.'
+				(function (d, t) {
+				var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+				bh.type = "text/javascript";
+				bh.src = "https://www.bugherd.com/sidebarv2.js?apikey='.$project_key.'";
+				s.parentNode.insertBefore(bh, s);
+				})(document, "script");
+			');
 		}
 		
 		return false;
