@@ -180,6 +180,7 @@
  **/
 
 #debug-info {
+	display: block !important;
 	position: fixed;
 	z-index: 999;
 	bottom: 0;

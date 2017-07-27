@@ -1,4 +1,4 @@
-<div id="debug-info">
+<div id="debug-info" style="display: none;">
     
     <div class="debug-item mode">
         <strong>Mode:</strong>
