@@ -179,7 +179,7 @@
  * Positioned in a red info bar and can be disabled within the CMS
  **/
 
-#page-info {
+#debug-info {
 	position: fixed;
 	z-index: 999;
 	bottom: 0;
@@ -190,7 +190,7 @@
 	font-family: Arial, Helvetica, sans-serif;
 }
  
-#page-info > .debug-item {
+#debug-info > .debug-item {
 	display: inline-block;
 	padding: 10px 15px;
 	background: #e31818;
@@ -199,19 +199,7 @@
 	margin-right: -3px;
 }
  
-#page-info > .debug-item:first-child {
-	background: #d30f0f;
-	color: #ea9494;
-	text-transform: uppercase;
-}
-
-@media( min-width: 500px ){
-	#page-info > .debug-item:first-child {
-		display: none;
-	}
-}
- 
-#page-info > a.debug-item:hover {
+#debug-info > a.debug-item:hover {
 	background: #d30f0f;
 }
 
