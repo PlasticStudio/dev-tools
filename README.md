@@ -17,6 +17,7 @@ Adds additional functionality to assist in developing SilverStripe websites.
 * `IconSelectField` to use icon libraries within the CMS
 * Automatic redirection from development domains, when in LIVE mode
 * `LogJam` logging to append system error log
+* BugHerd integration
 
 
 # Installation
@@ -25,6 +26,7 @@ Adds additional functionality to assist in developing SilverStripe websites.
 2. Edit your theme's `templates/Page.ss` template and add `$DebugTools` immediately before the `</body>` tag
 3. Run /dev/build?flush=1
 4. Toggle debug tools by turning your site to DEV or TEST modes (disabled on LIVE sites for obvious reasons)
+5. Set the site's _BugHerd_ project key in `config.yml`. See [config/dev-tools.yml](https://github.com/PlasticStudio/dev-tools/blob/master/_config/dev-tools.yml) for an example.
 
 
 # Usage
@@ -40,10 +42,12 @@ Adds additional functionality to assist in developing SilverStripe websites.
 
 ![IconSelectField](https://raw.githubusercontent.com/jaedb/dev-tools/master/source/screenshot-iconselectfield.jpg)
 
+* Set your `$db` field to type `Icon` (eg `'PageIcon' => 'Icon'`)
 * `IconSelectField::create($name, $title, $iconFolder)`
 * `$name` is the database field as defined in your class
 * `$title` is the label for this field
 * `$iconFolder` (optional) defines the directory where your icons can be found. Defaults to `/site/icons`.
+* Use your icon in templates as you would any other property (eg `$PageIcon`). If your icon is an SVG, you can get the SVG data embedded directly into your template by appending `.SVG` (eg `$PageIcon.SVG`).
 
 ### LogJam
 
