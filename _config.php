@@ -23,9 +23,9 @@ if( $fullDomain != SS_PRIMARY_DOMAIN && SS_ENVIRONMENT_TYPE == 'live' ){
 }
 
 // add functionality to SiteTree
-ContentController::add_extension('DebugTools_ContentControllerExtension');
-SiteConfig::add_extension('DebugTools_SiteConfigExtension');
-Member::add_extension('DebugTools_MemberExtension');
+ContentController::add_extension('DevTools');
+SiteConfig::add_extension('DevTools_SiteConfigExtension');
+Member::add_extension('DevTools_MemberExtension');
 
 // include css
 LeftAndMain::require_css(DEVTOOLS_DIR . '/css/cms.css');

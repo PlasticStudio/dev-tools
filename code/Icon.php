@@ -8,6 +8,7 @@ class Icon extends DBField {
 	
 	/** 
 	 * Detect if the specified file exists
+	 *
 	 * @return boolean
 	 **/
 	public function fileExists( $url ){
@@ -29,21 +30,24 @@ class Icon extends DBField {
 	/**
 	 * Return an XHTML img tag for this Image,
 	 * or NULL if the image file doesn't exist on the filesystem.
+	 *
 	 * @return string
 	 */
 	public function getTag() {
 	
 		$url = $this->getValue();
 		
-		// file not exist? 
-		if( !$this->fileExists( $url ) ) return false;
-		
+		if (!$this->fileExists($url)){
+			return false;
+		}
+
 		return '<img class="icon" src="'.$url.'" />';
 	}
 	
 	
 	/** 
 	 * Get just the URL for this icon
+	 *
 	 * @return string
 	 **/
 	public function URL(){
@@ -53,6 +57,7 @@ class Icon extends DBField {
 	
 	/** 
 	 * Load the SVG data of the stored file
+	 *
 	 * @return string
 	 **/
 	public function SVG( $url ){
@@ -61,11 +66,11 @@ class Icon extends DBField {
 		$filePath = BASE_PATH.$url;
 		
 		// not an SVG file
-		if( substr($filePath, strlen($filePath) - 4) !== '.svg' ) return false;
-		
-		// load SVG data
-		$svg = file_get_contents($filePath);
-		
+		if( substr($filePath, strlen($filePath) - 4) !== '.svg' ){
+			return false;
+		}
+
+		$svg = file_get_contents($filePath);		
 		return '<span class="icon svg">'.$svg.'</span>';
 	}
 }

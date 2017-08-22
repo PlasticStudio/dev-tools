@@ -2,7 +2,7 @@
 /**
  * @package debugtools
  */
-class DebugTools_ContentControllerExtension extends Extension {
+class DevTools extends Extension {
 
 	private static $allowed_actions = array(
 		'emulateuser',
@@ -13,8 +13,9 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 * On render of all pages, detect if a redirect is required
 	 * @return array()
 	 **/
-	public function index( $request ){		
-		if( DEVTOOLS_ISOLDDOMAIN && SS_PRIMARY_DOMAIN != 'SS_PRIMARY_DOMAIN' ){
+	public function index($request){
+
+		if (DEVTOOLS_ISOLDDOMAIN && SS_PRIMARY_DOMAIN != 'SS_PRIMARY_DOMAIN'){
 			
 			// construct our destination redirect url
 			$redirect = SS_PRIMARY_DOMAIN;
@@ -27,17 +28,8 @@ class DebugTools_ContentControllerExtension extends Extension {
 			// perform a redirection
 			return $this->owner->redirect( $redirect, 301 );
 		}
+
 		return array();
-	}
-	
-	
-	/**
-	 * Current client's IP address
-	 * @return string
-	 **/
-	public function ClientIPAddress(){
-		$request = $this->owner->getRequest();
-		return $_SERVER['REMOTE_ADDR'];
 	}
 	
 	
@@ -53,8 +45,11 @@ class DebugTools_ContentControllerExtension extends Extension {
 		Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
 		
 		// not enabled, or not allowed >> get out
-		if( !$this->CanEmulateUser() ){
-			echo 'You cannot do that';
+		if (!Permission::check('ADMIN')){
+			echo 'Permission denied';
+			die();
+		} elseif (!Config::inst()->get('DevTools','user_emulation')){
+			echo 'User emulation not enabled';
 			die();
 		}
 
@@ -90,12 +85,51 @@ class DebugTools_ContentControllerExtension extends Extension {
 	
 	
 	/**
+	 * Current client's IP address
+	 * @return string
+	 **/
+	public function ClientIPAddress(){
+		$request = $this->owner->getRequest();
+		return $_SERVER['REMOTE_ADDR'];
+	}
+	
+	
+	/**
 	 * Once the ContentController has been initiated, plug in our CSS (if debug enabled)
 	 * @return null
 	 **/
 	public function onAfterInit(){
-		if( $this->DebugEnabled() )
+
+		// Include our dev-tools CSS
+		if ($this->DebugEnabled()){
 			Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
+		}
+
+		// Plug in our BugHerd requirements (if enabled)
+		if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
+
+			// Pre-populate the email address with the current logged-in user
+			$config = null;
+			if (Member::currentUserID()){
+				$config = '
+					var BugHerdConfig = {
+						"reporter": {
+							"email":"'.Member::currentUser()->Email.'",
+							"required":"true"
+						}
+					};';
+			}
+
+			Requirements::customScript('
+				'.$config.'
+				(function (d, t) {
+				var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+				bh.type = "text/javascript";
+				bh.src = "https://www.bugherd.com/sidebarv2.js?apikey='.$project_key.'";
+				s.parentNode.insertBefore(bh, s);
+				})(document, "script");
+			');
+		}
 		
 		return false;
 	}
@@ -106,34 +140,15 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 * @return boolean
 	 **/
 	public function DebugEnabled(){
-		
-		// make sure we're in DEV/TEST mode
-		if( !Director::isTest() && !Director::isDev() )
+
+		// We're NOT in dev or test mode
+		if (!Director::isTest() && !Director::isDev()){
 			return false;
-		
-		// also, make sure we haven't been manually disabled
-		$config = SiteConfig::current_site_config();
-		if( $config->DebugToolsDisabled )
+
+		// Debug not enabled in config
+		} elseif (!Config::inst()->get('DevTools','debug')){
 			return false;
-			
-		return true;
-	}
-	
-	
-	/**
-	 * Can the current user emulate another user?
-	 * @return boolean
-	 **/
-	public function CanEmulateUser(){
-	
-		// if we're not an admin, GET OUT	
-		if( !Permission::check('ADMIN') )
-			return false;
-		
-		// also, make sure we haven't been manually disabled
-		$config = SiteConfig::current_site_config();
-		if( $config->EmulateUserDisabled )
-			return false;
+		}
 			
 		return true;
 	}
@@ -143,31 +158,24 @@ class DebugTools_ContentControllerExtension extends Extension {
 	 * Build the debug tools markup for template use
 	 * @return HTMLText
 	 **/
-	public function DebugTools(){
+	public function DebugInfo(){
 		
-		if( $this->DebugEnabled() )
-			return $this->PageInfo()->renderWith('PageInfo');
+		if ($this->DebugEnabled()){			
+			$info = ArrayData::create(array(
+				'Mode' => (Director::isTest() ? 'TEST' : 'DEV'),
+				'TimeToLoad' => round( ( microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"] ), 2)
+			));
+			return $info->renderWith('DebugInfo');
+		}
 		
 		return false;
 	}
-	
 
-	/** 
-	 * Once ContentController has been initiated, do our stuff
-	 * @return ArrayList
+
+	/**
+	 * Deprecated methods
 	 **/
-	public function PageInfo(){
-	
-		$mode = 'DEV';
-		if( Director::isTest() ) $mode = 'TEST';
-		
-		$data = array(
-			'CanEmulateUser' => $this->CanEmulateUser(),
-			'Mode' => $mode,
-			'TimeToLoad' => round( ( microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"] ), 2)
-		);
-		
-		// dump out our debug data
-		return ArrayData::create($data);
+	public function DebugTools(){
+		user_error('Deprecation notice: $DebugTools is deprecated, please use $DebugInfo', E_USER_WARNING);
 	}
 }

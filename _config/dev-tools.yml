@@ -1,0 +1,4 @@
+DevTools:
+  bugherd_project_key: false
+  debug: true
+  user_emulation: true

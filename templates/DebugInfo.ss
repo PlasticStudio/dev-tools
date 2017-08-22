@@ -1,8 +1,4 @@
-<div id="page-info">
-    
-    <div class="debug-item">
-        Debug tools
-    </div>
+<div id="debug-info" style="display: none;">
     
     <div class="debug-item mode">
         <strong>Mode:</strong>
@@ -13,9 +9,5 @@
         <strong>Load time:</strong>
         <span>{$TimeToLoad}s</span>
     </div>
-    
-    <% if CanEmulateUser %>
-        <a class="debug-item emulateuser" href="/home/emulateuser"><strong>Emulate user</strong></a>
-    <% end_if %>
     
 </div>
