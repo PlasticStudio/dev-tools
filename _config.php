@@ -23,6 +23,14 @@ if (defined('SS_PRIMARY_DOMAIN') && $fullDomain != SS_PRIMARY_DOMAIN && SS_ENVIR
 	define('DEVTOOLS_ISOLDDOMAIN', false);
 }
 
+// Plug our BugHerd requirements in to the CMS (if enabled)
+if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
+
+	// Pre-populate the email address with the current logged-in user
+	Requirements::customScript('var BugHerdConfig = "'.$config.'";');
+	LeftAndMain::require_javascript('https://www.bugherd.com/sidebarv2.js?apikey='.$project_key);
+}
+
 // add functionality to SiteTree
 ContentController::add_extension('DevTools');
 SiteConfig::add_extension('DevTools_SiteConfigExtension');
