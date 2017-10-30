@@ -15,18 +15,18 @@ class DevTools extends Extension {
 	 **/
 	public function index($request){
 
-		if (DEVTOOLS_ISOLDDOMAIN && SS_PRIMARY_DOMAIN != 'SS_PRIMARY_DOMAIN'){
+		// Our config has told us we need to redirect
+		if (DEVTOOLS_REDIRECT_DESTINATION){
 			
 			// construct our destination redirect url
-			$redirect = SS_PRIMARY_DOMAIN;
-			if( $url = $request->getURL() ){
+			$redirect = DEVTOOLS_REDIRECT_DESTINATION;
+			if ($url = $request->getURL()){
                 if ($url != 'home'){
                     $redirect .= '/'.$request->getURL();
                 }
             }
 			
-			// perform a redirection
-			return $this->owner->redirect( $redirect, 301 );
+			return $this->owner->redirect(DEVTOOLS_REDIRECT_DESTINATION, 301);
 		}
 
 		return array();
@@ -39,10 +39,10 @@ class DevTools extends Extension {
 	 * @param $request = HTTPRequest
 	 * @return redirect
 	 **/
-	public function emulateuser( $request ){
+	public function emulateuser($request){
 		
 		Requirements::clear();
-		Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
+		Requirements::css(DEVTOOLS_DIR .'/css/dev-tools.css');
 		
 		// not enabled, or not allowed >> get out
 		if (!Permission::check('ADMIN')){
@@ -57,23 +57,23 @@ class DevTools extends Extension {
 		$params = $this->owner->getRequest()->params();
 		
 		// URL attribute?
-		if( !isset($params['ID']) ){
+		if (!isset($params['ID'])){
 			
 			$members = Member::get();
 			$membersList = array();
-			foreach($members as $member) {
+			foreach ($members as $member){
 				$membersList[$member->ID] = $member;
 			}
 			$membersList = ArrayList::create($membersList);			
 			$membersList = PaginatedList::create($membersList, $this->owner->getRequest());
 			$membersList->setPageLength(20);
 			
-			return $this->owner->customise( array('Users' => $membersList) )->renderWith('EmulateUserPage');
+			return $this->owner->customise(array('Users' => $membersList))->renderWith('EmulateUserPage');
 		}
 	
 		$member = Member::get()->byID( $params['ID'] );
 		
-		if( !isset($member->ID) ){
+		if (!isset($member->ID)){
 			echo 'Could not find user by #'. $params['ID'];
 			die();
 		}

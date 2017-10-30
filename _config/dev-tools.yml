@@ -2,3 +2,4 @@ DevTools:
   bugherd_project_key: false
   debug: true
   user_emulation: true
+  disable_primary_domain_redirection: false
