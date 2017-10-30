@@ -1,0 +1,8 @@
+
+/**
+ * All this file does is create space for our bugherd sidebar and button
+ **/
+
+.cms-content-actions.cms-content-controls.south > .Actions {
+	padding-right: 60px;
+}

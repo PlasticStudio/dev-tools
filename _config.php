@@ -29,6 +29,7 @@ if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
 	// Pre-populate the email address with the current logged-in user
 	Requirements::customScript('var BugHerdConfig = "'.$config.'";');
 	LeftAndMain::require_javascript('https://www.bugherd.com/sidebarv2.js?apikey='.$project_key);
+	LeftAndMain::require_css(DEVTOOLS_DIR . '/css/cms-bugherd.css');
 }
 
 // add functionality to SiteTree
