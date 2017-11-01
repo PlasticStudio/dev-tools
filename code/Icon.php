@@ -60,17 +60,25 @@ class Icon extends DBField {
 	 *
 	 * @return string
 	 **/
-	public function SVG( $url ){
+	public function SVG($url){
 		
 		// figure out the full system location for the file
 		$filePath = BASE_PATH.$url;
 		
 		// not an SVG file
-		if( substr($filePath, strlen($filePath) - 4) !== '.svg' ){
+		if (substr($filePath, strlen($filePath) - 4) !== '.svg'){
 			return false;
 		}
 
 		$svg = file_get_contents($filePath);		
 		return '<span class="icon svg">'.$svg.'</span>';
+	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see DBField::scaffoldFormField()
+	 */
+	public function scaffoldFormField($title = null, $params = null) {
+		return new IconSelectField($this->name, $title);
 	}
 }

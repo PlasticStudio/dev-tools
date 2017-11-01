@@ -18,15 +18,17 @@ class IconSelectField extends OptionsetField {
 		$extensions = array('jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg');
 
 		// Scan each directory for files
-		$directory = new DirectoryIterator($sourcePath);
-		foreach ($directory as $fileinfo){
-			if ($fileinfo->isFile()){
+		if (file_exists($sourcePath)){
+			$directory = new DirectoryIterator($sourcePath);
+			foreach ($directory as $fileinfo){
+				if ($fileinfo->isFile()){
 
-				$extension = strtolower(pathinfo($fileinfo->getFilename(), PATHINFO_EXTENSION));
+					$extension = strtolower(pathinfo($fileinfo->getFilename(), PATHINFO_EXTENSION));
 
-				// Only add to our available icons if it's an extension we're after
-				if (in_array($extension, $extensions)){					
-					$icons[$sourceFolder.$fileinfo->getFilename()] = $fileinfo->getFilename();
+					// Only add to our available icons if it's an extension we're after
+					if (in_array($extension, $extensions)){					
+						$icons[$sourceFolder.$fileinfo->getFilename()] = $fileinfo->getFilename();
+					}
 				}
 			}
 		}
