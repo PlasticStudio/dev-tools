@@ -70,6 +70,10 @@ class Icon extends DBField {
 			return false;
 		}
 
+		if (!file_exists($filePath)){
+			return false;
+		}
+		
 		$svg = file_get_contents($filePath);		
 		return '<span class="icon svg">'.$svg.'</span>';
 	}
