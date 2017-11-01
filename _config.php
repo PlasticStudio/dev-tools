@@ -62,7 +62,7 @@ function ShouldRedirect(){
 		return false;
 
 	// Expressly disabled
-	} elseif (!Config::inst()->get('DevTools','disable_primary_domain_redirection')){
+	} elseif (Config::inst()->get('DevTools','disable_primary_domain_redirection')){
 		return false;
 
 	// Not in LIVE mode
