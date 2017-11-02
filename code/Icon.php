@@ -34,14 +34,14 @@ class Icon extends DBField {
 	 * @return string
 	 */
 	public function getTag() {
-	
-		$url = $this->getValue();
+		$url = $this->URL();
 		
-		if (!$this->fileExists($url)){
-			return false;
+		// We are an SVG, so return the SVG data
+		if (substr($url, strlen($url) - 4) === '.svg'){
+			return $this->SVG();
+		} else {
+			return $this->IMG();
 		}
-
-		return '<img class="icon" src="'.$url.'" />';
 	}
 	
 	
@@ -56,24 +56,30 @@ class Icon extends DBField {
 	
 	
 	/** 
-	 * Load the SVG data of the stored file
+	 * Construct IMG tag
 	 *
 	 * @return string
 	 **/
-	public function SVG($url){
+	public function IMG(){
+		$url = $this->URL();	
+		return '<img class="icon" src="'.$url.'" />';
+	}
+	
+	
+	/** 
+	 * Construct SVG data
+	 *
+	 * @return string
+	 **/
+	public function SVG(){
+		$url = $this->URL();
 		
 		// figure out the full system location for the file
 		$filePath = BASE_PATH.$url;
-		
-		// not an SVG file
-		if (substr($filePath, strlen($filePath) - 4) !== '.svg'){
-			return false;
-		}
-
 		if (!file_exists($filePath)){
 			return false;
 		}
-		
+
 		$svg = file_get_contents($filePath);		
 		return '<span class="icon svg">'.$svg.'</span>';
 	}
