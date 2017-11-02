@@ -5,17 +5,6 @@ class Icon extends DBField {
         DB::requireField($this->tableName, $this->name, 'Varchar(1024)');
     }
 	
-	
-	/** 
-	 * Detect if the specified file exists
-	 *
-	 * @return boolean
-	 **/
-	public function fileExists( $url ){
-		$filePath = BASE_PATH.$url;
-		return file_exists($filePath);
-	}
-	
 
 	/**
 	 * Return an XHTML img tag for this Image.
@@ -73,6 +62,10 @@ class Icon extends DBField {
 	 **/
 	public function SVG(){
 		$url = $this->URL();
+
+		if (substr($url, strlen($url) - 4) !== '.svg'){
+			user_error('Deprecation notice: Direct access to $Icon.SVG in templates is deprecated, please use $Icon', E_USER_WARNING);
+		}
 		
 		// figure out the full system location for the file
 		$filePath = BASE_PATH.$url;
@@ -80,7 +73,7 @@ class Icon extends DBField {
 			return false;
 		}
 
-		$svg = file_get_contents($filePath);		
+		$svg = file_get_contents($filePath);
 		return '<span class="icon svg">'.$svg.'</span>';
 	}
 
