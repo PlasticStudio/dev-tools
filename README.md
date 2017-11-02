@@ -57,7 +57,7 @@ When you set your `SS_PRIMARY_DOMAIN` property on a `live` website, we automatic
 * `$name` is the database field as defined in your class
 * `$title` is the label for this field
 * `$iconFolder` (optional) defines the directory where your icons can be found. Defaults to `/site/icons`.
-* Use your icon in templates as you would any other property (eg `$PageIcon`). If your icon is an SVG, you can get the SVG data embedded directly into your template by appending `.SVG` (eg `$PageIcon.SVG`).
+* Use your icon in templates as you would any other property (eg `$PageIcon`). If your icon is an SVG, the SVG image data will be injected into the template. To prevent this, you can call `$PageIcon.IMG` instead to enforce use of `<img>` tags.
 
 ### LogJam
 
