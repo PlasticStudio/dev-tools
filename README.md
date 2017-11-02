@@ -43,14 +43,14 @@ When you set your `SS_PRIMARY_DOMAIN` property on a `live` website, we automatic
 
 ### Debug Tools
 
-![Debug tools](https://raw.githubusercontent.com/jaedb/dev-tools/master/source/screenshot-debugtools.jpg)
+![Debug tools](https://raw.githubusercontent.com/PlasticStudio/dev-tools/master/source/screenshot-debugtools.jpg)
 
 * Manage the visibility of the Debug Tools from within the CMS, under _Settings_
 * Manage ability to Emulate users, also under _Settings_
 
 ### IconSelectField
 
-![IconSelectField](https://raw.githubusercontent.com/jaedb/dev-tools/master/source/screenshot-iconselectfield.jpg)
+![IconSelectField](https://raw.githubusercontent.com/PlasticStudio/dev-tools/master/source/screenshot-iconselectfield.jpg)
 
 * Set your `$db` field to type `Icon` (eg `'PageIcon' => 'Icon'`)
 * `IconSelectField::create($name, $title, $iconFolder)`
