@@ -11,6 +11,7 @@ class EmulateUser_BetterButton extends BetterButtonAction {
     public function __construct($text, $link) {
         parent::__construct($text);
         $this->link = $link;
+        $this->text = $text;
     }
 	
     public function getButtonLink() {
@@ -24,8 +25,6 @@ class EmulateUser_BetterButton extends BetterButtonAction {
      */
     public function getButtonHTML() {
         return
-            '<a class="ss-ui-button ui-button-text-icon-primary" href="'.$this->getButtonLink().'">
-				Emulate user
-			</a>';
+            '<a class="ss-ui-button ui-button-text-icon-primary" href="'.$this->getButtonLink().'">'.$this->text.'</a>';
     }
 }

@@ -3,11 +3,6 @@
  * @package debugtools
  */
 class DevTools extends Extension {
-
-	private static $allowed_actions = array(
-		'emulateuser',
-		'olddomain'
-	);
 	
 	/**
 	 * On render of all pages, detect if a redirect is required
@@ -30,57 +25,6 @@ class DevTools extends Extension {
 		}
 
 		return array();
-	}
-	
-	
-	
-	/** 
-	 * Action to emulate a specific user
-	 * @param $request = HTTPRequest
-	 * @return redirect
-	 **/
-	public function emulateuser($request){
-		
-		Requirements::clear();
-		Requirements::css(DEVTOOLS_DIR .'/css/dev-tools.css');
-		
-		// not enabled, or not allowed >> get out
-		if (!Permission::check('ADMIN')){
-			echo 'Permission denied';
-			die();
-		} elseif (!Config::inst()->get('DevTools','user_emulation')){
-			echo 'User emulation not enabled';
-			die();
-		}
-
-		// get URL parameters
-		$params = $this->owner->getRequest()->params();
-		
-		// URL attribute?
-		if (!isset($params['ID'])){
-			
-			$members = Member::get();
-			$membersList = array();
-			foreach ($members as $member){
-				$membersList[$member->ID] = $member;
-			}
-			$membersList = ArrayList::create($membersList);			
-			$membersList = PaginatedList::create($membersList, $this->owner->getRequest());
-			$membersList->setPageLength(20);
-			
-			return $this->owner->customise(array('Users' => $membersList))->renderWith('EmulateUserPage');
-		}
-	
-		$member = Member::get()->byID( $params['ID'] );
-		
-		if (!isset($member->ID)){
-			echo 'Could not find user by #'. $params['ID'];
-			die();
-		}
-		
-		$member->logIn();
-		
-		return $this->owner->redirect($this->owner->Link());
 	}
 	
 	
