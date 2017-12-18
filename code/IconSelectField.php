@@ -41,8 +41,8 @@ class IconSelectField extends OptionsetField {
 		}
 		
 		$this->source = $icons;		
-		Requirements::css(DEVTOOLS_DIR .'/css/IconSelectField.css');
-		Requirements::javascript(DEVTOOLS_DIR .'/js/IconSelectField.js');
+		Requirements::css('/resources/plasticstudio/dev-tools/css/IconSelectField.css');
+		Requirements::javascript('/resources/plasticstudio/dev-tools/js/IconSelectField.js');
 	}
 	
 

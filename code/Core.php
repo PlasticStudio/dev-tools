@@ -92,7 +92,7 @@ class Core extends Extension {
 	public function emulateuser($request){
 		
 		Requirements::clear();
-		Requirements::css('/resources/dev-tools/client/css/dev-tools.css');
+		Requirements::css('/resources/dev-tools/css/dev-tools.css');
 		
 		// not enabled, or not allowed >> get out
 		if (!Permission::check('ADMIN')){
