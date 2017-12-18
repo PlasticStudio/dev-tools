@@ -35,7 +35,7 @@ Adds additional functionality to assist in developing SilverStripe websites.
 
 When you set your `SS_PRIMARY_DOMAIN` property on a `live` website, we automatically redirect to this primary domain. This avoids the need for bloated .htaccess redirections and allows control at the environment level.
 
-* Set your preferred domain in `config.php`
+* Set your preferred domain in `_ss_environment.php`
 * Consider whether you want http vs https, and include this in your domain (but exclude trailing slash!).
 * Example: `define('SS_PRIMARY_DOMAIN', 'https://plasticstudio.co.nz');` will redirect http://www.plasticstudio.co.nz/some-section/subpage to https://plasticstudio.co.nz/some-section/subpage.
 * To completely disable this functionality set `disable_primary_domain_redirection: true` in your project's `config.yml`
