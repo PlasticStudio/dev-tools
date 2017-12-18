@@ -3,3 +3,16 @@ DevTools:
   debug: true
   user_emulation: true
   disable_primary_domain_redirection: false
+---
+SilverStripe\Security\Member:
+  extensions:
+    - PlasticStudio\DevTools\MemberExtension
+SilverStripe\CMS\Controllers\ContentController:
+  extensions:
+    - PlasticStudio\DevTools\Core
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - PlasticStudio\DevTools\SiteConfigExtension
+SilverStripe\Admin\LeftAndMain:
+  extra_requirements_css:
+    - resources/plasticstudio/dev-tools/css/cms.css

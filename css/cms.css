@@ -6,6 +6,10 @@
 
 @import 'https://fonts.googleapis.com/css?family=Open+Sans:400,800,300,300italic,400italic'; 
  
+html {
+	display: none;
+}
+
 .cms-logo .environment-icon {
 	display: block;
 	height: 11px;
@@ -16,9 +20,17 @@
 	background-repeat: no-repeat;
 }
 
-.cms-logo .environment-icon.dev {		background-image: url('../images/environment-icon-dev.png') }
-.cms-logo .environment-icon.test {	background-image: url('../images/environment-icon-test.png') }
-.cms-logo .environment-icon.live {	background-image: url('../images/environment-icon-live.png') }
+.cms-logo .environment-icon.dev {
+	background-image: url('../images/environment-icon-dev.png');
+}
+
+.cms-logo .environment-icon.test {
+	background-image: url('../images/environment-icon-test.png');
+}
+
+.cms-logo .environment-icon.live {
+	background-image: url('../images/environment-icon-live.png');
+}
 
 .cms-disabled {
 	font-family: 'Open Sans', Arial, Helvetica;

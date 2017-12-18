@@ -1,8 +1,15 @@
 <?php
+
+namespace PlasticStudio\DevTools;
+
+use IconSelectField;
+use SilverStripe\ORM\FieldType\DBField;
+use SilverStripe\ORM\Connect\DBSchemaManager;
+
 class Icon extends DBField {
 
     function requireField() {
-        DB::requireField($this->tableName, $this->name, 'Varchar(1024)');
+        DBSchemaManager::requireField($this->tableName, $this->name, 'Varchar(1024)');
     }
 	
 

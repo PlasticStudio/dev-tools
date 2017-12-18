@@ -1,5 +1,11 @@
 <?php
-class DevTools_SiteConfigExtension extends DataExtension {
+
+namespace PlasticStudio\DevTools;
+
+use SilverStripe\ORM\DataExtension;
+use SilverStripe\Control\Director;
+
+class SiteConfigExtension extends DataExtension {
 	
 	public function EnvironmentIcon(){
 	
