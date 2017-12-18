@@ -1,20 +1,24 @@
 <?php
 
-namespace PlasticStudio\DevTools;
-
-use IconSelectField;
+use PlasticStudio\DevTools\IconSelectField;
 use SilverStripe\ORM\FieldType\DBField;
-use SilverStripe\ORM\Connect\DBSchemaManager;
+use SilverStripe\ORM\DB;
 
 class Icon extends DBField {
 
     function requireField() {
-        DBSchemaManager::requireField($this->tableName, $this->name, 'Varchar(1024)');
+        DB::require_field($this->tableName, $this->name, 'Varchar(1024)');
     }
+
+    private static $casting = array(
+        'URL' => 'HTMLFragment',
+        'IMG' => 'HTMLFragment',
+        'SVG' => 'HTMLFragment'
+    );	
 	
 
 	/**
-	 * Return an XHTML img tag for this Image.
+	 * Default casting for this field
 	 *
 	 * @return string
 	 */
@@ -24,8 +28,7 @@ class Icon extends DBField {
 	
 
 	/**
-	 * Return an XHTML img tag for this Image,
-	 * or NULL if the image file doesn't exist on the filesystem.
+	 * Default casting for this field
 	 *
 	 * @return string
 	 */
@@ -89,6 +92,6 @@ class Icon extends DBField {
 	 * @see DBField::scaffoldFormField()
 	 */
 	public function scaffoldFormField($title = null, $params = null) {
-		return new IconSelectField($this->name, $title);
+		return IconSelectField::create($this->name, $title);
 	}
 }

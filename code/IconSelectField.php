@@ -2,8 +2,10 @@
 
 namespace PlasticStudio\DevTools;
 
+use DirectoryIterator;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\ArrayData;
+use SilverStripe\ORM\ArrayList;
 use SilverStripe\Forms\OptionsetField;
 
 class IconSelectField extends OptionsetField {
@@ -18,7 +20,7 @@ class IconSelectField extends OptionsetField {
 	 * @param string $sourceFolder
 	 **/
 	public function __construct($name, $title = null, $sourceFolder = '/site/icons/'){	
-		parent::__construct($name, $title, null);
+		parent::__construct($name, $title, array());
 		
 		$icons = array();
 		$sourcePath = BASE_PATH.$sourceFolder;
@@ -57,7 +59,7 @@ class IconSelectField extends OptionsetField {
 		$options = array();
 
 		// Add a clear option
-		$options[] = new ArrayData(array(
+		$options[] = ArrayData::create(array(
 			'ID' => 'none',
 			'Name' => $this->name,
 			'Value' => '',
@@ -68,7 +70,7 @@ class IconSelectField extends OptionsetField {
 		if ($source){
 			foreach($source as $value => $title) {
 				$itemID = $this->ID() . '_' . preg_replace('/[^a-zA-Z0-9]/', '', $value);
-				$options[] = new ArrayData(array(
+				$options[] = ArrayData::create(array(
 					'ID' => $itemID,
 					'Name' => $this->name,
 					'Value' => $value,
@@ -79,7 +81,7 @@ class IconSelectField extends OptionsetField {
 		}
 
 		$properties = array_merge($properties, array(
-			'Options' => new ArrayList($options)
+			'Options' => ArrayList::create($options)
 		));
 
 		return $this->customise($properties)->renderWith('IconSelectField');
