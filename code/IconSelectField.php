@@ -1,4 +1,11 @@
 <?php
+
+namespace PlasticStudio\DevTools;
+
+use SilverStripe\View\Requirements;
+use SilverStripe\View\ArrayData;
+use SilverStripe\Forms\OptionsetField;
+
 class IconSelectField extends OptionsetField {
 	
 	static $sourceFolder;

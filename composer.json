@@ -1,6 +1,6 @@
 {
 	"name": "plasticstudio/dev-tools",
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
 	"description": "Development tools for SilverStripe",
 	"homepage": "http://plasticstudio.co.nz",
 	"keywords": ["silverstripe"],
@@ -15,14 +15,15 @@
 	"support": {
 		"issues": "http://github.com/plasticstudio/dev-tools/issues"
 	},
-	"require": {
-		"silverstripe/cms": "~3.1",
-		"silverstripe/framework": "~3.1"
-	},
     "extra": {
-        "installer-paths": {
-            "{$name}": ["vendor/package"]
-        }
+        "expose": [
+            "client"
+        ]
     },
+	"require": {
+		"silverstripe/cms": "~4.0",
+		"silverstripe/framework": "~4.0",
+        "silverstripe/vendor-plugin": "^1.0"
+	},
 	"minimum-stability": "dev"
 }

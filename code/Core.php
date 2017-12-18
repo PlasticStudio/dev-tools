@@ -1,8 +1,17 @@
 <?php
-/**
- * @package debugtools
- */
-class DevTools extends Extension {
+
+namespace PlasticStudio\DevTools;
+
+use SilverStripe\Core\Extension;
+use SilverStripe\Core\Environment;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\Director;
+use SilverStripe\View\Requirements;
+use SilverStripe\View\ArrayData;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\Member;
+
+class Core extends Extension {
 
 	private static $allowed_actions = array(
 		'emulateuser',
@@ -16,20 +25,61 @@ class DevTools extends Extension {
 	public function index($request){
 
 		// Our config has told us we need to redirect
-		if (DEVTOOLS_REDIRECT_DESTINATION){
+		if ($this->ShouldRedirect()){
 			
 			// construct our destination redirect url
-			$redirect = DEVTOOLS_REDIRECT_DESTINATION;
+			$redirect = Environment::getEnv('SS_PRIMARY_DOMAIN');
 			if ($url = $request->getURL()){
                 if ($url != 'home'){
                     $redirect .= '/'.$request->getURL();
                 }
             }
 			
-			return $this->owner->redirect(DEVTOOLS_REDIRECT_DESTINATION, 301);
+			return $this->owner->redirect($redirect, 301);
 		}
 
 		return array();
+	}
+	
+	
+	/**
+	 * Once the ContentController has been initiated, plug in our CSS (if debug enabled)
+	 * @return null
+	 **/
+	public function onAfterInit(){
+
+		// Include our dev-tools CSS
+		if ($this->DebugEnabled()){
+			Requirements::css('/resources/plasticstudio/dev-tools/css/dev-tools.css');
+		}
+
+		// Plug in our BugHerd requirements (if enabled)
+		if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
+
+			// Pre-populate the email address with the current logged-in user
+			$config = null;
+			if (Member::currentUserID()){
+				$config = '
+					var BugHerdConfig = {
+						"reporter": {
+							"email":"'.Member::currentUser()->Email.'",
+							"required":"true"
+						}
+					};';
+			}
+
+			Requirements::customScript('
+				'.$config.'
+				(function (d, t) {
+				var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
+				bh.type = "text/javascript";
+				bh.src = "https://www.bugherd.com/sidebarv2.js?apikey='.$project_key.'";
+				s.parentNode.insertBefore(bh, s);
+				})(document, "script");
+			');
+		}
+		
+		return false;
 	}
 	
 	
@@ -42,7 +92,7 @@ class DevTools extends Extension {
 	public function emulateuser($request){
 		
 		Requirements::clear();
-		Requirements::css(DEVTOOLS_DIR .'/css/dev-tools.css');
+		Requirements::css('/resources/dev-tools/client/css/dev-tools.css');
 		
 		// not enabled, or not allowed >> get out
 		if (!Permission::check('ADMIN')){
@@ -92,45 +142,37 @@ class DevTools extends Extension {
 		$request = $this->owner->getRequest();
 		return $_SERVER['REMOTE_ADDR'];
 	}
-	
-	
+
+
 	/**
-	 * Once the ContentController has been initiated, plug in our CSS (if debug enabled)
-	 * @return null
+	 * Detect whether we should redirect to the primary domain
+	 *
+	 * @return boolean
 	 **/
-	public function onAfterInit(){
+	public function ShouldRedirect(){
 
-		// Include our dev-tools CSS
-		if ($this->DebugEnabled()){
-			Requirements::css( DEVTOOLS_DIR .'/css/dev-tools.css');
+		// Construct our current request's domain name
+		$current_request_domain = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+
+		// Destination not configured
+		if (!Environment::getEnv('SS_PRIMARY_DOMAIN')){
+			return false;
+
+		// Expressly disabled
+		} elseif (Config::inst()->get('DevTools','disable_primary_domain_redirection')){
+			return false;
+
+		// Not in LIVE mode
+		} else if (!Director::isLive()){
+			return false;
+
+		// Not on the right domain, do redirect!
+		} elseif ($current_request_domain != Environment::getEnv('SS_PRIMARY_DOMAIN')){
+			return true;
 		}
 
-		// Plug in our BugHerd requirements (if enabled)
-		if ($project_key = Config::inst()->get('DevTools','bugherd_project_key')){
-
-			// Pre-populate the email address with the current logged-in user
-			$config = null;
-			if (Member::currentUserID()){
-				$config = '
-					var BugHerdConfig = {
-						"reporter": {
-							"email":"'.Member::currentUser()->Email.'",
-							"required":"true"
-						}
-					};';
-			}
-
-			Requirements::customScript('
-				'.$config.'
-				(function (d, t) {
-				var bh = d.createElement(t), s = d.getElementsByTagName(t)[0];
-				bh.type = "text/javascript";
-				bh.src = "https://www.bugherd.com/sidebarv2.js?apikey='.$project_key.'";
-				s.parentNode.insertBefore(bh, s);
-				})(document, "script");
-			');
-		}
-		
+		// Default to not redirecting. If we've got this far it's likely we
+		// encountered some kind of error.
 		return false;
 	}
 	
