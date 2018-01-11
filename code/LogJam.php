@@ -1,4 +1,10 @@
 <?php
+
+namespace PlasticStudio\DevTools;
+
+use SilverStripe\Control\Director;
+use SilverStripe\Dev\Backtrace;
+
 class LogJam {
 		
 	protected static $enabled;
@@ -28,14 +34,14 @@ class LogJam {
 		if( static::$enabled ){
 			
 			// make sure our log level matches our environment level, otherwise break out
-			if( Director::isLive() && $environment != 'live' ){
+			if (Director::isLive() && $environment != 'live'){
 				return false;
-			}else if( Director::isTest() && ( $environment != 'live' || $environment != 'test' ) ){
+			}else if (Director::isTest() && ( $environment != 'live' || $environment != 'test')){
 				return false;
 			}
 			
 			// trace the origin call
-			$trace = SS_Backtrace::filtered_backtrace();
+			$trace = Backtrace::filtered_backtrace();
 			$trace = $trace[0];		
 			$file = isset($trace['file']) ? $trace['file'] : '';
 			$line = isset($trace['line']) ? $trace['line'] : '';

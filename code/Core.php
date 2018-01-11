@@ -28,7 +28,7 @@ class Core extends Extension {
 		if ($this->ShouldRedirect()){
 			
 			// construct our destination redirect url
-			$redirect = Environment::getEnv('SS_PRIMARY_DOMAIN');
+			$redirect = Environment::getEnv('SS_BASE_URL');
 			if ($url = $request->getURL()){
                 if ($url != 'home'){
                     $redirect .= '/'.$request->getURL();
@@ -155,7 +155,7 @@ class Core extends Extension {
 		$current_request_domain = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
 
 		// Destination not configured
-		if (!Environment::getEnv('SS_PRIMARY_DOMAIN')){
+		if (!Environment::getEnv('SS_BASE_URL')){
 			return false;
 
 		// Expressly disabled
@@ -167,7 +167,7 @@ class Core extends Extension {
 			return false;
 
 		// Not on the right domain, do redirect!
-		} elseif ($current_request_domain != Environment::getEnv('SS_PRIMARY_DOMAIN')){
+		} elseif ($current_request_domain != Environment::getEnv('SS_BASE_URL')){
 			return true;
 		}
 
