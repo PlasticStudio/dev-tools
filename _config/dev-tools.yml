@@ -1,8 +1,22 @@
 DevTools:
   bugherd_project_key: false
-  debug: true
+  debug: false
+  log_jam_info: "../logs/log_jam_info.log"
+  log_jam_debug: "../logs/log_jam_debug.log"
+  log_jam_error: "../logs/log_jam_error.log"
   user_emulation: true
   disable_primary_domain_redirection: false
+---
+Except:
+  environment: live
+DevTools:
+  debug: false
+---
+Only:
+  environment: dev
+DevTools:
+  debug: true
+  disable_primary_domain_redirection: true
 ---
 SilverStripe\Security\Member:
   extensions:

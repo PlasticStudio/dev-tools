@@ -13,6 +13,12 @@ use SilverStripe\Security\Member;
 
 class Core extends Extension {
 
+	public $logger;
+
+    private static $dependencies = [
+        'logger' => '%$Psr\Log\LoggerInterface',
+    ];
+
 	private static $allowed_actions = array(
 		'emulateuser',
 		'olddomain'
@@ -23,6 +29,8 @@ class Core extends Extension {
 	 * @return array()
 	 **/
 	public function index($request){
+
+		LogJam::error("Nicely done sir");
 
 		// Our config has told us we need to redirect
 		if ($this->ShouldRedirect()){
@@ -49,7 +57,7 @@ class Core extends Extension {
 	public function onAfterInit(){
 
 		// Include our dev-tools CSS
-		if ($this->DebugEnabled()){
+		if (Config::inst()->get('DevTools','debug')){
 			Requirements::css('/resources/plasticstudio/dev-tools/css/dev-tools.css');
 		}
 
@@ -162,10 +170,6 @@ class Core extends Extension {
 		} elseif (Config::inst()->get('DevTools','disable_primary_domain_redirection')){
 			return false;
 
-		// Not in LIVE mode
-		} else if (!Director::isLive()){
-			return false;
-
 		// Not on the right domain, do redirect!
 		} elseif ($current_request_domain != Environment::getEnv('SS_BASE_URL')){
 			return true;
@@ -178,31 +182,12 @@ class Core extends Extension {
 	
 	
 	/**
-	 * Check if we're enabled
-	 * @return boolean
-	 **/
-	public function DebugEnabled(){
-
-		// We're NOT in dev or test mode
-		if (!Director::isTest() && !Director::isDev()){
-			return false;
-
-		// Debug not enabled in config
-		} elseif (!Config::inst()->get('DevTools','debug')){
-			return false;
-		}
-			
-		return true;
-	}
-	
-	
-	/**
 	 * Build the debug tools markup for template use
 	 * @return HTMLText
 	 **/
 	public function DebugInfo(){
 		
-		if ($this->DebugEnabled()){			
+		if (Config::inst()->get('DevTools','debug')){			
 			$info = ArrayData::create(array(
 				'Mode' => (Director::isTest() ? 'TEST' : 'DEV'),
 				'TimeToLoad' => round( ( microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"] ), 2)
@@ -220,4 +205,6 @@ class Core extends Extension {
 	public function DebugTools(){
 		user_error('Deprecation notice: $DebugTools is deprecated, please use $DebugInfo', E_USER_WARNING);
 	}
+
+
 }
