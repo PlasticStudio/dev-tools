@@ -30,8 +30,6 @@ class Core extends Extension {
 	 **/
 	public function index($request){
 
-		LogJam::error("Nicely done sir");
-
 		// Our config has told us we need to redirect
 		if ($this->ShouldRedirect()){
 			
