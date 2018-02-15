@@ -11,19 +11,19 @@ class DevTools extends Extension {
 	public function index($request){
 
 		// Our config has told us we need to redirect
-		if (DEVTOOLS_REDIRECT_DESTINATION){
+		// Our config has told us we need to redirect
+		if ($this->ShouldRedirect()){
 			
 			// construct our destination redirect url
-			$redirect = DEVTOOLS_REDIRECT_DESTINATION;
+			$redirect = SS_PRIMARY_DOMAIN;
 			if ($url = $request->getURL()){
                 if ($url != 'home'){
                     $redirect .= '/'.$request->getURL();
                 }
             }
 			
-			return $this->owner->redirect(DEVTOOLS_REDIRECT_DESTINATION, 301);
+			return $this->owner->redirect($redirect, 301);
 		}
-
 		return array();
 	}
 	
@@ -121,5 +121,29 @@ class DevTools extends Extension {
 	 **/
 	public function DebugTools(){
 		user_error('Deprecation notice: $DebugTools is deprecated, please use $DebugInfo', E_USER_WARNING);
+	}
+
+	/**
+	 * Detect whether we should redirect to the primary domain
+	 *
+	 * @return boolean
+	 **/
+	public function ShouldRedirect(){
+		// Construct our current request's domain name
+		$current_request_domain = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'];
+
+		// Destination not configured
+		if (!defined('SS_PRIMARY_DOMAIN') ){
+			return false;
+		// Expressly disabled
+		} elseif (Config::inst()->get('DevTools','disable_primary_domain_redirection')){
+			return false;
+		// Not on the right domain, do redirect!
+		} elseif ($current_request_domain != SS_PRIMARY_DOMAIN ){
+			return true;
+		}
+		// Default to not redirecting. If we've got this far it's likely we
+		// encountered some kind of error.
+		return false;
 	}
 }
